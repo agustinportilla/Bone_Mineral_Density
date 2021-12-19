@@ -34,7 +34,7 @@ The Dataset bmd.csv contains 169 records of bone densitometries (measurement of 
      - We used **describe** to spot any missing numeric field; 
      - **groupby** and **crosstab** to easily identify potential relations betweem the predicting variables and the target (**fracture/no-fracture**); 
      - **get_dummies**, **join** and **drop** to create a new dataset with a format that where we can apply Logistics Regression, 
-     - We then removed the **id** column from the dataset and used **astype** to make sure all our fields are numeric.
+     - We then removed the **id** column from the dataset, **dtypes** to check the column type and **astype** to transform string columns to integer.
 
    - **Model Creation with Sklearn**: 
      - We grouped our predicting variables under the value **X** and defined our target as **Y**
@@ -45,9 +45,11 @@ The Dataset bmd.csv contains 169 records of bone densitometries (measurement of 
    - **Validation**: 
      - **Cross Validation**: We apply cross validation, obtaining a result of 83.38%, which is line with our previous results. 
      - **Confussion Matrix** and **ROC Curve**: We obtain an auc of 81,70% (in line with the previous results).
+
+   - **Logistics Regression Score:** 84.02%. 
      
 
-## Dataset processing using Random Forest ##
+## Dataset processing using Tree/Forest ##
    - **Libraries used**: 
      - **For Preprocessing**: Pandas, Numpy and Matplotlib.pyplot
      - **For Model Creation**: Sklearn (tree.DecisionTreeClassifier, model_selection.KFold, model_selection.cross_val_score, ensemble.RandomForestClassifier)
@@ -57,14 +59,25 @@ The Dataset bmd.csv contains 169 records of bone densitometries (measurement of 
      - We used **describe** to spot any missing numeric field; 
      - **groupby** and **crosstab** to easily identify potential relations betweem the predicting variables and the target (**fracture/no-fracture**); 
      - **get_dummies**, **join** and **drop** to create a new dataset with a format that where we can apply Logistics Regression, 
-     - We then removed the **id** column from the dataset and used **astype** to make sure all our fields are numeric.
+     - We then removed the **id** column from the dataset, **dtypes** to check the column type and **astype** to transform string columns to integer.
 
-   - **Model Creation with Sklearn**: 
+   - **Model Creation with DecisionTreeClassifier**: 
      - We grouped our predicting variables under the value **X** and defined our target as **Y**
-     - We used **RFE** and **LogisticRegression** to rank the impact of every predicting variable on the target variable. 
-     - We run the model, obtaining a score of 0.8224852071005917, which means that 82.24...% of the targets were predicted correctly.
-     - Based on the ranking previously obtain, wed remove some variables from **X**. We get our best score when we only use the variables **age**, **medication_No medication**, **waiting_time** and **bmd**: 84.02%.
+     - We divided our dataset into a **training set** (aprox 75%) and a **testing set** (aprox 25%).
+     - We used **DecisionTreeClassifier** to create and fit our model (using the **training set**).
+     - We calculated our score using the **testing set**: Our score is 83.33%. 
+     - We validated these results. They are correct: We have 35 cases in which the model predicted correctly and 7 in which it did not (35/42 = 0.833).
+     - One comment regarding this method: If we split our original dataset, and run our model again, we will obtain different results. 
+     - Fortunately, the following two methods perform better in terms of variability.
      
-   - **Validation**: 
-     - **Cross Validation**: We apply cross validation, obtaining a result of 83.38%, which is line with our previous results. 
-     - **Confussion Matrix** and **ROC Curve**: We obtain an auc of 81,70% (in line with the previous results).
+   - **Model Creation with Cross Validation**: 
+     - We used **KFold** and **cross_val_score** to build our model. We used the complete dataset (no need to divide the dataset into **training** and **testing** here).
+     - We calculated our score using a **max_depth** of 5. Our score is 82.2%.
+     - We created a loop to understand how we can change **max_depth** to improve the model. We discovered that a **max_depth** of 1 or 2 returns a score of 88.78%.
+
+   - **Model Creation with RandomForestClassifier**: 
+     - We build our model using the **training set**.
+     - We set the n_estimators parameter to 10000 (that will be the quantity of trees that the model will create).
+     - Our score is 85.03%.
+
+   -  **Tree/Forest Score:** 88.78%. 
