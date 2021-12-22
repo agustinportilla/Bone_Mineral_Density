@@ -111,3 +111,9 @@ The Dataset bmd.csv contains 169 records of bone densitometries (measurement of 
      - For all the other parameters the same.
 
    - **KNN Score:** 77.74%. 
+
+
+## Final Conclusions ##
+   - As we have seen, we have analysed our Dataset using three different kind of algorithms: Logistic Regression, Random Tree/Forest and KNN.
+   - When we compared their results, we found out that the performance of Random Tree/Forest was the best (88.78%)
+   - Random Tree/Forest performed significately higher than Logistics Regression (84.02%) or KNN (77.74%).
